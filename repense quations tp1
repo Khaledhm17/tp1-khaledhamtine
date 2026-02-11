@@ -1,1 +1,32 @@
 rq tp1
+
+
+
+1 What is a data class in Kotlin?
+
+    ///////////////////////////////
+
+1.This is a class dedicated solely to holding data. Once you add the keyword `data` before the code, Kotlin automatically creates background functions that save you from writing dozens of lines of code. These functions include:
+
+`toString()`: To print the object's contents in a readable format (e.g., `Book(isbn=123, ...)`).
+
+`equals()` & `hashCode()`: To compare two objects based on their data, not their memory location.
+
+`copy()`: To create a new copy of the object with some modified values (this is where the power of `val` lies).
+
+2 Why do we use val instead of var for the properties?
+
+    ///////////////////////////
+
+2.Using `val` (read-only) is standard practice (best practice) when defining data models for several reasons:
+
+Immutability: It ensures that once an object is created, its data won't be accidentally altered elsewhere in the application. This makes the code "safe" and less prone to bugs.
+
+3 What would happen if we used var instead?
+
+       ////////////////////////// 
+
+3.Technically, the code will work and Kotlin won't prevent you from doing so, but you will encounter the following problems:
+
+Loss of control: Any part of the code can modify the book title or ISBN at any time, which could lead to unexpected results in databases or interfaces.
+
