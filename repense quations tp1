@@ -30,3 +30,36 @@ Immutability: It ensures that once an object is created, its data won't be accid
 
 Loss of control: Any part of the code can modify the book title or ISBN at any time, which could lead to unexpected results in databases or interfaces.
 
+
+        ##########################
+
+1 What is the purpose of the BookRepository class?
+
+
+
+1️⃣ What is the role of BookRepository?
+It is a class that manages book data.
+It acts as an intermediary between the data source (here, a list) and the rest of the application.
+👉 It follows the Repository Pattern to separate data logic from the UI.
+
+          ///////////////////
+
+2 What does the getAllBooks() function return?
+
+2️⃣ What does getAllBooks() return?
+fun getAllBooks(): List<Book>
+It returns a list of books: List<Book>.
+
+
+          //////////////////
+
+3 How would you add a function to search books by title?
+
+exemple:
+fun searchBooksByTitle(query: String): List<Book> {
+    return booksList.filter {
+        it.title.contains(query, ignoreCase = true)
+    }
+}
+This function returns all books whose title contains the searched text.
+
