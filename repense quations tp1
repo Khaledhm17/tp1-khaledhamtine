@@ -40,7 +40,7 @@ Loss of control: Any part of the code can modify the book title or ISBN at any t
 1️⃣ What is the role of BookRepository?
 It is a class that manages book data.
 It acts as an intermediary between the data source (here, a list) and the rest of the application.
-👉 It follows the Repository Pattern to separate data logic from the UI.
+ It follows the Repository Pattern to separate data logic from the UI.
 
           ///////////////////
 
@@ -62,4 +62,103 @@ fun searchBooksByTitle(query: String): List<Book> {
     }
 }
 This function returns all books whose title contains the searched text.
+
+
+/////////////////////////////////////////////////////////
+
+1. Why do we have a separate Use Case instead of calling the repository directly from the ViewModel?
+
+1. We use a separate Use Case to follow Clean Architecture principles and to separate business logic from the UI layer.
+If ViewModel calls Repository directly: ViewModel → Repository
+✅ With Use Case: ViewModel → UseCase → Repository
+
+////////////////////////////////////////
+
+2. What is the `operator fun invoke()` syntax?
+
+2.It allows you to call a class like a function
+
+////////////////////////////////////////
+
+3. How would you add business logic to filter only books with more than 300 pages?
+
+3. class GetLongBooksUseCase(
+    private val repository: BookRepository
+) {
+    operator fun invoke(): List<Book> {
+        return repository.getAllBooks()
+            .filter { it.nbPages > 300 }
+    }
+}
+
+
+/////////////////////////////////////
+
+1. What is `StateFlow` and why do we use it?
+
+1. Always has an initial value
+
+Emits updates whenever the value changes
+
+It is used to represent UI state in a reactive way.
+
+/////////////////////////////////////////////
+
+2. What is the difference between `_books` (private) and `books` (public)?
+
+2. this pattern is called Backing Property Pattern.
+
+| `_books`         | `books`             |
+| ---------------- | ------------------- |
+| Mutable          | Read-only           |
+| Private          | Public              |
+| Can change value | Cannot change value |
+| Inside ViewModel | Exposed to UI       |
+
+//////////////////////////////////////////////
+
+3. What is `viewModelScope` and why do we use it?
+
+3. viewModelScope is a CoroutineScope tied to the ViewModel lifecycle.
+
+It automatically:
+
+Launches coroutines
+
+Cancels them when ViewModel is cleared
+
+/////////////////////////////////////////////
+
+4. When is the `init` block executed?
+Holds a current value (state)
+
+4. init is a block that runs Immediately after the class is created.
+
+///////////////////////////////////////////////
+
+1. How does the screen observe changes in the ViewModel?
+
+1. The screen observes changes using StateFlow and collectAsState() in Jetpack compose.
+
+///////////////////////////
+
+2. What is `LazyColumn` and why do we use it instead of `Column`?
+
+2. lazyColumn is a composable that displays a scrollable vertical list efficiently.
+
+example for clarify :
+
+If you have 1000 books:
+
+Column → Draws 1000 items at once ❌
+
+LazyColumn → Draws only the items shown on the screen ✅
+
+///////////////////////////////
+
+
+3. What happens when the books list is empty?
+
+3.  EmptyBooksMessage()
+📚  No books found
 
